@@ -25,5 +25,13 @@ def books(request):
     books = Book.objects.all()
     return render(request, 'bookstore/books.html', { 'books': books })
 
-def customer(request):
-    return render(request, 'bookstore/customer.html')
+def customer(request, pk):
+    customer = Customer.objects.get(id=pk)
+    orders = customer.order_set.all()
+    number_orders = orders.count()
+    context = {
+        'customer': customer,
+        'orders': orders,
+        'number_orders': number_orders
+    }
+    return render(request, 'bookstore/customer.html', context)

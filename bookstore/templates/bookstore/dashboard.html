@@ -1,5 +1,71 @@
-{% extends 'bookstore/main.html' %}
-
-{% block content %}
-    <h1>Dashboard</h1>
+{% extends 'bookstore/main.html' %} {% block content %}
+<h1>Dashboard</h1>
+<div class="row pt-5">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Customers</h5>
+                <h6 class="card-subtitle mb-2 text-muted"><a href="#" class="btn btn-primary"><i class="fas fa-add"></i> Create</a></h6>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Age</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for customer in customers %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{ customer.name }}</td>
+                            <td>{{ customer.email }}</td>
+                            <td>{{ customer.age }}</td>
+                            <td>
+                                <a href="#"><i class="fas fa-edit"></i></a>
+                                <a href="#" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Orders</h5>
+                <h6 class="card-subtitle mb-2 text-muted"><a href="#" class="btn btn-primary"><i class="fas fa-add"></i> Create</a></h6>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Book</th>
+                            <th scope="col">Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td>{{ order.date_created }}</td>
+                            <td>{{ order.customer }}</td>
+                            <td>{{ order.book }}</td>
+                            <td>{{ order.status }}</td>
+                            <td>
+                                <a href="#"><i class="fas fa-edit"></i></a>
+                                <a href="#" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

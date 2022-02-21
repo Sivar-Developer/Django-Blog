@@ -5,9 +5,19 @@ from .models import *
 def home(request):
     customers = Customer.objects.all()
     orders = Order.objects.all()
+    total_orders = orders.count()
+    pending_orders = orders.filter(status="Pending").count()
+    delivered_orders = orders.filter(status="Delivered").count()
+    inprogress_orders = orders.filter(status="In progress").count()
+    out_orders = orders.filter(status="Pending").count()
     context = {
         'customers': customers,
-        'orders': orders
+        'orders': orders,
+        'total_orders': total_orders,
+        'pending_orders': pending_orders,
+        'delivered_orders': delivered_orders,
+        'inprogress_orders': inprogress_orders,
+        'out_orders': out_orders,
     }
     return render(request, 'bookstore/dashboard.html', context)
 

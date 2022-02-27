@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+
+from bookstore.forms import OrderForm
 from .models import *
+from django.forms import ModelForm
 
 # Create your views here.
 def home(request):
@@ -35,3 +38,14 @@ def customer(request, pk):
         'number_orders': number_orders
     }
     return render(request, 'bookstore/customer.html', context)
+
+def create(request):
+    form = OrderForm()
+    if request.method == 'POST':
+        print(request.POST)
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/home')
+    context = { 'form': form }
+    return render(request, 'bookstore/order_form.html', context)

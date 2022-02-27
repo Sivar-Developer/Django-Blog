@@ -49,3 +49,14 @@ def create(request):
             return redirect('/home')
     context = { 'form': form }
     return render(request, 'bookstore/order_form.html', context)
+
+def update(request, pk):
+    order = Order.objects.get(id = pk)
+    form = OrderForm(instance=order)
+    if request.method == 'POST':
+        form = OrderForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    context = { 'form': form }
+    return render(request, 'bookstore/order_form.html', context)

@@ -65,7 +65,7 @@
                             <td>{{ order.book }}</td>
                             <td>{{ order.status }}</td>
                             <td>
-                                <a href="#"><i class="fas fa-edit"></i></a>
+                                <a href="{% url 'update' order.id %}"><i class="fas fa-edit"></i></a>
                                 <a href="#" class="text-danger"><i class="fas fa-trash-alt"></i></a>
                             </td>
                         </tr>

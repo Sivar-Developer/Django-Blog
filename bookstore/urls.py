@@ -7,4 +7,5 @@ urlpatterns = [
     # path('customer', views.customer),
     path('customer/<str:pk>', views.customer, name="customer"),
     path('create', views.create, name="create"),
+    path('update/<str:pk>', views.update, name="update"),
 ]

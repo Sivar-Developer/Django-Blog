@@ -1,7 +1,8 @@
 from django.shortcuts import redirect, render
 
-from bookstore.forms import OrderForm
+from .forms import OrderForm
 from .models import *
+from .filters import OrderFilter
 from django.forms import ModelForm, inlineformset_factory
 
 # Create your views here.
@@ -32,8 +33,13 @@ def customer(request, pk):
     customer = Customer.objects.get(id=pk)
     orders = customer.order_set.all()
     number_orders = orders.count()
+    
+    searchFilter = OrderFilter(request.GET, queryset=orders)
+    orders = searchFilter.qs
+    
     context = {
         'customer': customer,
+        'myFilter': searchFilter,
         'orders': orders,
         'number_orders': number_orders
     }

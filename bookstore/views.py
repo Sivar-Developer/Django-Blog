@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 
 from bookstore.forms import OrderForm
 from .models import *
-from django.forms import ModelForm
+from django.forms import ModelForm, inlineformset_factory
 
 # Create your views here.
 def home(request):
@@ -39,15 +39,26 @@ def customer(request, pk):
     }
     return render(request, 'bookstore/customer.html', context)
 
-def create(request):
-    form = OrderForm()
+# def create(request):
+#     form = OrderForm()
+#     if request.method == 'POST':
+#         print(request.POST)
+#         form = OrderForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('/home')
+#     context = { 'form': form }
+#     return render(request, 'bookstore/order_form.html', context)
+
+def create(request, pk):
+    OrderFormSet = inlineformset_factory(Customer, Order, fields=('book', 'status'))
+    customer = Customer.objects.get(id = pk)
+    formset = OrderFormSet(instance=customer)
     if request.method == 'POST':
-        print(request.POST)
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            form.save()
+        if formset.is_valid():
+            formset.save()
             return redirect('/home')
-    context = { 'form': form }
+    context = { 'formset': formset }
     return render(request, 'bookstore/order_form.html', context)
 
 def update(request, pk):
@@ -60,3 +71,13 @@ def update(request, pk):
             return redirect('/')
     context = { 'form': form }
     return render(request, 'bookstore/order_form.html', context)
+
+def delete(request, pk):
+    order = Order.objects.get(id = pk)
+    if request.method == 'POST':
+        form = OrderForm(request.post, instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    context = { 'order': order }
+    return render(request, 'bookstore/delete_form.html', context)
